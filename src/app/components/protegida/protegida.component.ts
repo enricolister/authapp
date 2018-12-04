@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProtegidaComponent implements OnInit {
 
-  constructor() { }
+  public profile: any;
+
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
+    if (this.auth.userProfile) {
+      this.profile = this.auth.userProfile;
+      console.log(this.profile);
+    } else {
+      this.auth.getProfile((err, profile) => {
+        this.profile = profile;
+        console.log(this.profile);
+      });
+    }
   }
 
 }
